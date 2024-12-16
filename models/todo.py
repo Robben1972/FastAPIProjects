@@ -10,6 +10,3 @@ class Todo(Base):
     done = Column(Boolean, default=False)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
-
-    def __repr__(self):
-        return f'<Todo {self.id} -> {self.title}>'
