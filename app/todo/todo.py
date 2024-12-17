@@ -15,11 +15,14 @@ def get_tasks(db: Session = Depends(get_db)):
 
 @router.post('/todolist/')
 def create_task(todo: TodoCreate, db: Session = Depends(get_db)):
-    db_item = Todo(**todo.dict())
-    db.add(db_item)
-    db.commit()
-    db.refresh(db_item)
-    return todo
+    try:
+        db_item = Todo(**todo.dict())
+        db.add(db_item)
+        db.commit()
+        db.refresh(db_item)
+        return todo
+    except Exception as e:
+        raise HTTPException(status_code=500, detail='Something went wrong')
 
 @router.get('/todolist/{task_id}', response_model=TodoResponse)
 def get_task(task_id: int, db: Session = Depends(get_db)):
